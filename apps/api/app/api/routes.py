@@ -57,7 +57,8 @@ TOURIST_CITY_NAMES = {
 
 def countries() -> list[Country]:
     display_names = {"Taiwan, Province of China": "Taiwan"}
-    return [Country(code=c.alpha_2, alpha3=c.alpha_3, numeric=c.numeric, name=display_names.get(c.name, c.name)) for c in pycountry.countries if c.alpha_2 not in NON_SOVEREIGN_TERRITORIES]
+    geo_countries = geonamescache.GeonamesCache().get_countries()
+    return [Country(code=c.alpha_2, alpha3=c.alpha_3, numeric=c.numeric, name=display_names.get(c.name, c.name), continent=geo_countries.get(c.alpha_2, {}).get("continentcode")) for c in pycountry.countries if c.alpha_2 not in NON_SOVEREIGN_TERRITORIES]
 
 
 @lru_cache
@@ -358,7 +359,7 @@ def statistics(session: Session = Depends(get_session)) -> Statistics:
     visits = session.exec(select(Visit).where(Visit.profile_id == profile.id)).all()
     trips = session.exec(select(Trip).where(Trip.profile_id == profile.id)).all()
     days = sum((visit.departed_on - visit.arrived_on).days + 1 for visit in visits if visit.arrived_on and visit.departed_on)
-    visited = sum(item.place_type == PlaceType.country and item.status == PlaceStatusValue.visited for item in statuses)
+    visited = sum(item.place_type == PlaceType.country and item.status in (PlaceStatusValue.visited, PlaceStatusValue.lived) for item in statuses)
     lived = sum(item.place_type == PlaceType.country and item.status == PlaceStatusValue.lived for item in statuses)
     planned = sum(item.place_type == PlaceType.country and item.status == PlaceStatusValue.planned for item in statuses)
     regions = sum(item.place_type == PlaceType.region and item.status == PlaceStatusValue.visited for item in statuses)

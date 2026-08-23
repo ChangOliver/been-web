@@ -25,7 +25,6 @@ export function WorldMap({ countries, statuses, onSelect }: Props) {
         return <path key={country.code} d={path(shape) ?? ''} className={`country-shape ${status ?? ''}`} onClick={() => onSelect(country)} tabIndex={0} role="button" aria-label={country.name} onKeyDown={(event) => { if (event.key === 'Enter') onSelect(country) }} />
       })}
     </svg>
-    <div className="map-legend"><span><i className="legend-swatch visited" /> Visited</span><span><i className="legend-swatch lived" /> Lived</span><span><i className="legend-swatch planned" /> Planned</span></div>
+    <div className="map-legend"><span><i className="legend-swatch visited" /> Visited</span><span><i className="legend-swatch lived" /> Lived</span></div>
   </div>
 }
-

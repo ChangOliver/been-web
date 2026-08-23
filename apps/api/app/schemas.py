@@ -11,6 +11,7 @@ class Country(BaseModel):
     alpha3: str
     numeric: str
     name: str
+    continent: str | None = None
 
 
 class StatusUpsert(BaseModel):

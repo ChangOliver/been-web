@@ -1,4 +1,4 @@
-export type Country = { code: string; alpha3: string; numeric: string; name: string }
+export type Country = { code: string; alpha3: string; numeric: string; name: string; continent?: string }
 export type Place = { code: string; place_type: 'region' | 'city' | 'airport' | 'country'; name: string; country_code?: string; latitude?: number; longitude?: number }
 export type PlaceStatus = { id: string; place_type: 'country' | 'region' | 'city' | 'airport'; place_code: string; status: 'visited' | 'lived' | 'planned'; first_visited_on?: string; last_visited_on?: string; notes?: string }
 export type Visit = { id: string; place_type: 'country' | 'region' | 'city' | 'airport'; place_code: string; arrived_on?: string; departed_on?: string; trip_id?: string; notes?: string }
