@@ -2,6 +2,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
 button, input, textarea { font: inherit; }
+.search-input { width: min(260px, 38vw); padding: .55rem .8rem; color: #dceef3; border: 1px solid #28505e; border-radius: .6rem; outline: none; background: #0d2a36; }.search-input::placeholder { color: #7399a5; }.search-input:focus { border-color: #6fd5c4; box-shadow: 0 0 0 2px rgba(111,213,196,.12); }
 button { cursor: pointer; }
 .app-shell { min-height: 100vh; display: flex; background: #071923; }
 .sidebar { position: fixed; inset: 0 auto 0 0; width: 230px; display: flex; flex-direction: column; padding: 2rem 1rem 1rem; border-right: 1px solid #173844; background: #091f2a; }
@@ -43,5 +44,11 @@ button { cursor: pointer; }
 @media (max-width: 900px) { .sidebar { width: 76px; padding: 1.5rem .6rem; }.brand span:last-child, .sidebar-caption, .nav-item:not(.active)::after, .sidebar-footer { display: none; }.brand { justify-content: center; padding: 0; }.nav-item { justify-content: center; padding: .75rem; }.nav-item span { width: auto; }.content { width: calc(100% - 76px); margin-left: 76px; }.stats-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 620px) { .content { padding: 1.4rem 1rem; }.topbar { display: block; }.top-actions { margin-top: 1rem; }.top-actions input { width: 100%; }.stats-grid, .split-grid { grid-template-columns: 1fr; }.create-panel { display: block; }.create-panel form { margin-top: 1rem; }.create-panel input { width: 100%; }.create-panel form .primary { white-space: nowrap; }.section-heading { align-items: flex-start; flex-direction: column; }.metric { min-height: 105px; }.metric strong { font-size: 1.9rem; } }
 .status-choice.planned, select option[value="planned"] { display: none; }
+.status-choice.lived { display: none; }
+.place-dates { display: none; }
+.map-legend span:has(.legend-swatch.lived) { display: none; }
+.map-legend span:has(.legend-swatch.planned) { display: none; }
+.place-select-card:has(.status-pill.visited) { border-color: #58bcae; background: #123e43; box-shadow: 0 0 0 1px rgba(88,188,174,.35); }
 .map-card .map-mode { display: none; }
+.map-card + .toolbar .filter-row .filter:nth-child(3) { display: none; }
 .continent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }.continent-counter { display: grid; gap: .2rem; padding: .9rem; border: 1px solid #1d4754; border-radius: .75rem; background: #0b2834; }.continent-counter strong { color: #6fd5c4; font-size: 1.5rem; }.continent-counter span { color: #e7f5f3; }.continent-counter small { color: #8eabb5; }

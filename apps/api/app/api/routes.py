@@ -71,11 +71,13 @@ def reference_places(place_type: str, featured_only: bool = True) -> tuple[Place
         featured: dict[str, dict[str, Any]] = {}
         for item in cities.values():
             name = str(item.get("name", "")).casefold()
+            key = f"{item['countrycode']}:{name}"
             if not featured_only:
-                featured[f"{item['countrycode']}-{item['geonameid']}"] = item
-            elif name in TOURIST_CITY_NAMES and (name not in featured or item.get("population", 0) > featured[name].get("population", 0)):
-                featured[name] = item
-        return tuple(Place(code=f"{item['countrycode']}-{item['geonameid']}", place_type="city", name=english_name(item), country_code=item["countrycode"], latitude=item["latitude"], longitude=item["longitude"]) for item in featured.values())
+                if key not in featured or item.get("population", 0) > featured[key].get("population", 0):
+                    featured[key] = item
+            elif name in TOURIST_CITY_NAMES and (key not in featured or item.get("population", 0) > featured[key].get("population", 0)):
+                featured[key] = item
+        return tuple(Place(code=f"{item['countrycode']}-{item['geonameid']}", place_type="city", name=city_display_name(item), country_code=item["countrycode"], region_code=str(item.get("admin1code", "")) or None, latitude=item["latitude"], longitude=item["longitude"]) for item in featured.values())
     if place_type == "airport":
         airports = airportsdata.load("IATA")
         return tuple(Place(code=code, place_type="airport", name=f"{item['name']} ({code})", country_code=item.get("country"), latitude=item.get("lat"), longitude=item.get("lon")) for code, item in airports.items())
@@ -88,6 +90,13 @@ def english_name(item: dict[str, Any]) -> str:
         return name
     alternatives = [str(value) for value in item.get("alternatenames", []) if str(value).isascii()]
     return min(alternatives or [name], key=len)
+
+
+def city_display_name(item: dict[str, Any]) -> str:
+    name = english_name(item)
+    admin_code = str(item.get("admin1code", ""))
+    region_label = admin_code.upper()
+    return f"{name}, {region_label}" if region_label else name
 
 
 def place_or_404(place_type: str, code: str) -> Place:

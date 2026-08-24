@@ -39,6 +39,7 @@ class Place(BaseModel):
     place_type: PlaceType
     name: str
     country_code: str | None = None
+    region_code: str | None = None
     latitude: float | None = None
     longitude: float | None = None
 
